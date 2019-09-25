@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:pokedex/data/pokemons.dart';
 import 'package:pokedex/screens/pokedex/widgets/generation_modal.dart';
 import 'package:pokedex/screens/pokedex/widgets/search_modal.dart';
+import 'package:pokedex/screens/pokemon_info/pokemon_info.dart';
 import 'package:pokedex/utils/fetch_data.dart';
 import 'package:pokedex/widgets/fab.dart';
 import 'package:pokedex/widgets/poke_container.dart';
@@ -88,9 +89,11 @@ class _PokedexState extends State<Pokedex> with SingleTickerProviderStateMixin {
                   itemBuilder: (context, index) => PokemonCard(
                     pokemons[index],
                     index: pokemons[index].id,
-                    onPress: () {
-                      Navigator.of(context).pushNamed("/pokemon-info");
-                    },
+                    onPress: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                PokemonInfo(pokemons[index]))),
                   ),
                 ),
               ),

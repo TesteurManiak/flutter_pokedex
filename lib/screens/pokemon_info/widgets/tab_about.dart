@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pokedex/configs/AppColors.dart';
+import 'package:pokedex/models/pokemon.dart';
 import 'package:provider/provider.dart';
 
 class PokemonAbout extends StatelessWidget {
+  final Pokemon pokemon;
+
+  PokemonAbout(this.pokemon);
+
   Widget _buildSection(String text, {List<Widget> children, Widget child}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
           text,
-          style: TextStyle(fontSize: 16, height: 0.8, fontWeight: FontWeight.bold),
+          style:
+              TextStyle(fontSize: 16, height: 0.8, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 22),
         if (child != null) child,
@@ -59,7 +65,7 @@ class PokemonAbout extends StatelessWidget {
               children: <Widget>[
                 _buildLabel("Height"),
                 SizedBox(height: 11),
-                Text("2’3.6” (0.70 cm)", style: TextStyle(height: 0.8))
+                Text("${pokemon.height / 10} m", style: TextStyle(height: 0.8))
               ],
             ),
           ),
@@ -129,7 +135,8 @@ class PokemonAbout extends StatelessWidget {
       child: AspectRatio(
         aspectRatio: 2.253,
         child: Container(
-          decoration: BoxDecoration(color: AppColors.teal, borderRadius: BorderRadius.circular(12)),
+          decoration: BoxDecoration(
+              color: AppColors.teal, borderRadius: BorderRadius.circular(12)),
         ),
       ),
     );
@@ -171,7 +178,9 @@ class PokemonAbout extends StatelessWidget {
 
         return SingleChildScrollView(
           padding: EdgeInsets.symmetric(vertical: 19, horizontal: 27),
-          physics: scrollable ? BouncingScrollPhysics() : NeverScrollableScrollPhysics(),
+          physics: scrollable
+              ? BouncingScrollPhysics()
+              : NeverScrollableScrollPhysics(),
           child: child,
         );
       },

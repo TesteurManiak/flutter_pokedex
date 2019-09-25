@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/widgets/animated_fade.dart';
 import 'package:pokedex/widgets/animated_rotation.dart';
 import 'package:pokedex/widgets/animated_slide.dart';
@@ -9,11 +10,16 @@ import 'package:provider/provider.dart';
 import 'decoration_box.dart';
 
 class PokemonOverallInfo extends StatefulWidget {
+  final Pokemon pokemon;
+
+  PokemonOverallInfo(this.pokemon);
+
   @override
   _PokemonOverallInfoState createState() => _PokemonOverallInfoState();
 }
 
-class _PokemonOverallInfoState extends State<PokemonOverallInfo> with TickerProviderStateMixin {
+class _PokemonOverallInfoState extends State<PokemonOverallInfo>
+    with TickerProviderStateMixin {
   static const double _appBarHorizontalPadding = 28.0;
   static const double _appBarTopPadding = 60.0;
   static const double _appBarBottomPadding = 22.0;
@@ -30,10 +36,12 @@ class _PokemonOverallInfoState extends State<PokemonOverallInfo> with TickerProv
 
   @override
   void initState() {
-    _slideController = AnimationController(vsync: this, duration: Duration(milliseconds: 360));
+    _slideController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 360));
     _slideController.forward();
 
-    _rotateController = AnimationController(vsync: this, duration: Duration(milliseconds: 5000));
+    _rotateController = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 5000));
     _rotateController.repeat();
 
     _pageController = PageController(viewportFraction: 0.6);
@@ -48,11 +56,15 @@ class _PokemonOverallInfoState extends State<PokemonOverallInfo> with TickerProv
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final RenderBox targetTextBox = _targetTextKey.currentContext.findRenderObject();
-      final Offset targetTextPosition = targetTextBox.localToGlobal(Offset.zero);
+      final RenderBox targetTextBox =
+          _targetTextKey.currentContext.findRenderObject();
+      final Offset targetTextPosition =
+          targetTextBox.localToGlobal(Offset.zero);
 
-      final RenderBox currentTextBox = _currentTextKey.currentContext.findRenderObject();
-      final Offset currentTextPosition = currentTextBox.localToGlobal(Offset.zero);
+      final RenderBox currentTextBox =
+          _currentTextKey.currentContext.findRenderObject();
+      final Offset currentTextPosition =
+          currentTextBox.localToGlobal(Offset.zero);
 
       textDiffLeft = targetTextPosition.dx - currentTextPosition.dx;
       textDiffTop = targetTextPosition.dy - currentTextPosition.dy;
@@ -97,7 +109,7 @@ class _PokemonOverallInfoState extends State<PokemonOverallInfo> with TickerProv
           Opacity(
             opacity: 0.0,
             child: Text(
-              "Bulbasaur",
+              widget.pokemon.name,
               key: _targetTextKey,
               style: TextStyle(
                 color: Colors.white,
@@ -113,7 +125,8 @@ class _PokemonOverallInfoState extends State<PokemonOverallInfo> with TickerProv
 
   Widget _buildPokemonName() {
     final cardScrollController = Provider.of<AnimationController>(context);
-    final fadeAnimation = Tween(begin: 1.0, end: 0.0).animate(cardScrollController);
+    final fadeAnimation =
+        Tween(begin: 1.0, end: 0.0).animate(cardScrollController);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 26),
@@ -130,11 +143,11 @@ class _PokemonOverallInfoState extends State<PokemonOverallInfo> with TickerProv
               return Transform.translate(
                 offset: Offset(textDiffLeft * value, textDiffTop * value),
                 child: Hero(
-                  tag: "Bulbasaur",
+                  tag: widget.pokemon.name,
                   child: Material(
                     color: Colors.transparent,
                     child: Text(
-                      "Bulbasaur",
+                      widget.pokemon.name,
                       key: _currentTextKey,
                       style: TextStyle(
                         color: Colors.white,
@@ -152,11 +165,11 @@ class _PokemonOverallInfoState extends State<PokemonOverallInfo> with TickerProv
             child: AnimatedSlide(
               animation: _slideController,
               child: Hero(
-                tag: "#001",
+                tag: widget.pokemon.id,
                 child: Material(
                   color: Colors.transparent,
                   child: Text(
-                    "#001",
+                    "#${widget.pokemon.id}",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w900,
@@ -174,7 +187,8 @@ class _PokemonOverallInfoState extends State<PokemonOverallInfo> with TickerProv
 
   Widget _buildPokemonTypes() {
     final cardScrollController = Provider.of<AnimationController>(context);
-    final fadeAnimation = Tween(begin: 1.0, end: 0.0).animate(cardScrollController);
+    final fadeAnimation =
+        Tween(begin: 1.0, end: 0.0).animate(cardScrollController);
 
     return AnimatedFade(
       animation: fadeAnimation,
@@ -261,10 +275,8 @@ class _PokemonOverallInfoState extends State<PokemonOverallInfo> with TickerProv
                     top: _currentPage == index ? 0 : screenHeight * 0.04,
                     bottom: _currentPage == index ? 0 : screenHeight * 0.04,
                   ),
-                  child: Image.asset(
-                    "assets/images/bulbasaur.png",
-                    width: screenHeight * 0.28,
-                    height: screenHeight * 0.28,
+                  child: Image.network(
+                    widget.pokemon.image,
                     alignment: Alignment.bottomCenter,
                     color: _currentPage == index ? null : Color(0xFF28A889),
                   ),
@@ -280,15 +292,18 @@ class _PokemonOverallInfoState extends State<PokemonOverallInfo> with TickerProv
   @override
   Widget build(BuildContext context) {
     final cardScrollController = Provider.of<AnimationController>(context);
-    final dottedAnimation = Tween(begin: 1.0, end: 0.0).animate(cardScrollController);
+    final dottedAnimation =
+        Tween(begin: 1.0, end: 0.0).animate(cardScrollController);
 
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
     final pokeSize = screenWidth * 0.448;
 
-    final pokeTop = -(pokeSize / 2 - (IconTheme.of(context).size / 2 + _appBarTopPadding));
-    final pokeRight = -(pokeSize / 2 - (IconTheme.of(context).size / 2 + _appBarHorizontalPadding));
+    final pokeTop =
+        -(pokeSize / 2 - (IconTheme.of(context).size / 2 + _appBarTopPadding));
+    final pokeRight = -(pokeSize / 2 -
+        (IconTheme.of(context).size / 2 + _appBarHorizontalPadding));
 
     return Stack(
       children: [
