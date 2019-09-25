@@ -18,15 +18,8 @@ class _PokedexState extends State<Pokedex> with SingleTickerProviderStateMixin {
   Animation<double> _animation;
   AnimationController _controller;
 
-  Future _loadPkmn() async {
-    var api = PokeAPI();
-    pokemons.add(await api.fetchPokemon("ditto"));
-    setState(() {});
-  }
-
   @override
   void initState() {
-    _loadPkmn();
     _controller = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 260),

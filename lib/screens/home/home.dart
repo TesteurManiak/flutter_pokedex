@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/configs/AppColors.dart';
+import 'package:pokedex/data/pokemons.dart';
 import 'package:pokedex/screens/home/widgets/category_list.dart';
 import 'package:pokedex/screens/home/widgets/news_list.dart';
 import 'package:pokedex/screens/home/widgets/search_bar.dart';
+import 'package:pokedex/utils/fetch_data.dart';
 import 'package:pokedex/widgets/poke_container.dart';
 
 class Home extends StatefulWidget {
@@ -18,8 +20,15 @@ class _HomeState extends State<Home> {
   bool _showTitle;
   bool _showToolbarColor;
 
+  Future _loadPkmn() async {
+    var api = PokeAPI();
+    pokemons.add(await api.fetchPokemon("ditto"));
+    setState(() {});
+  }
+
   @override
   void initState() {
+    _loadPkmn();
     _cardHeight = 0;
     _showTitle = false;
     _showToolbarColor = false;
@@ -82,7 +91,8 @@ class _HomeState extends State<Home> {
       physics: BouncingScrollPhysics(),
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(left: 28, right: 28, top: 0, bottom: 22),
+          padding:
+              const EdgeInsets.only(left: 28, right: 28, top: 0, bottom: 22),
           child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -120,7 +130,7 @@ class _HomeState extends State<Home> {
         controller: _scrollController,
         headerSliverBuilder: (_, __) => [
           SliverAppBar(
-            expandedHeight: _cardHeight,
+            expandedHeight: 500,
             floating: true,
             pinned: true,
             elevation: 0,

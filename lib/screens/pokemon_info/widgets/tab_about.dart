@@ -75,7 +75,7 @@ class PokemonAbout extends StatelessWidget {
               children: <Widget>[
                 _buildLabel("Weight"),
                 SizedBox(height: 11),
-                Text("15.2 lbs (6.9 kg)", style: TextStyle(height: 0.8))
+                Text("${pokemon.weight / 10} kg", style: TextStyle(height: 0.8))
               ],
             ),
           ),

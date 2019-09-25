@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex/models/pokemon.dart';
+import 'package:pokedex/utils/capitalizeFirst.dart';
 import 'package:pokedex/widgets/animated_fade.dart';
 import 'package:pokedex/widgets/animated_rotation.dart';
 import 'package:pokedex/widgets/animated_slide.dart';
@@ -147,7 +148,7 @@ class _PokemonOverallInfoState extends State<PokemonOverallInfo>
                   child: Material(
                     color: Colors.transparent,
                     child: Text(
-                      widget.pokemon.name,
+                      capitalizeFirst(widget.pokemon.name),
                       key: _currentTextKey,
                       style: TextStyle(
                         color: Colors.white,
@@ -265,9 +266,9 @@ class _PokemonOverallInfoState extends State<PokemonOverallInfo>
             PageView.builder(
               physics: BouncingScrollPhysics(),
               controller: _pageController,
-              itemCount: 3,
+              itemCount: widget.pokemon.sprites.length,
               itemBuilder: (context, index) => Hero(
-                tag: index == 0 ? "assets/images/bulbasaur.png" : "",
+                tag: widget.pokemon.sprites[index],
                 child: AnimatedPadding(
                   duration: Duration(milliseconds: 600),
                   curve: Curves.easeOutQuint,
@@ -276,7 +277,7 @@ class _PokemonOverallInfoState extends State<PokemonOverallInfo>
                     bottom: _currentPage == index ? 0 : screenHeight * 0.04,
                   ),
                   child: Image.network(
-                    widget.pokemon.image,
+                    widget.pokemon.sprites[index],
                     alignment: Alignment.bottomCenter,
                     color: _currentPage == index ? null : Color(0xFF28A889),
                   ),

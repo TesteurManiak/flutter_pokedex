@@ -5,11 +5,10 @@ import 'package:pokedex/models/form.dart' as pkmn;
 import 'package:pokedex/models/game_indice.dart';
 import 'package:pokedex/models/move.dart';
 import 'package:pokedex/models/specie.dart';
+import 'package:pokedex/models/stat.dart';
 
 /// To add:
-///  held_items
-/// sprites
-/// stats
+/// held_items
 /// types
 /// weight
 
@@ -30,6 +29,9 @@ class Pokemon {
     this.moves,
     this.order,
     this.species,
+    this.sprites,
+    this.stats,
+    this.weight,
   });
 
   final Color color;
@@ -47,6 +49,9 @@ class Pokemon {
   final List<Move> moves;
   final int order;
   final Specie species;
+  final List<String> sprites;
+  final List<Stat> stats;
+  final int weight;
 
   factory Pokemon.fromJson(Map<String, dynamic> json) {
     List<String> types = [];
@@ -74,6 +79,24 @@ class Pokemon {
       moves.add(Move.fromJson(move));
     });
 
+    var sprites = List<String>();
+    var backSprites = List<String>();
+    json['sprites'].forEach((indexKey, sprite) {
+      if (sprite != null) {
+        if (indexKey.toString().contains('back')) {
+          backSprites.add(sprite);
+        } else {
+          sprites.add(sprite);
+        }
+      }
+    });
+    sprites.addAll(backSprites);
+
+    List<Stat> stats = [];
+    json['stats'].forEach((stat) {
+      stats.add(Stat.fromJson(stat));
+    });
+
     return Pokemon(
       color: AppColors.lightTeal,
       image: json['sprites']['front_default'],
@@ -90,6 +113,9 @@ class Pokemon {
       moves: moves,
       order: json['order'],
       species: Specie.fromJson(json['species']),
+      sprites: sprites,
+      stats: stats,
+      weight: json['weight'],
     );
   }
 }

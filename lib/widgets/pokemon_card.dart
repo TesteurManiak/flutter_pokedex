@@ -52,7 +52,7 @@ class PokemonCard extends StatelessWidget {
               child: Material(
                 color: Colors.transparent,
                 child: Text(
-                  pokemon.name,
+                  capitalizeFirstChar(pokemon.name),
                   style: TextStyle(
                     fontSize: 14,
                     height: 0.7,

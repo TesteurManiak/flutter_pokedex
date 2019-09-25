@@ -48,7 +48,7 @@ class PokemonTabInfo extends StatelessWidget {
 
     _tabs = [
       TabData("About", PokemonAbout(pokemon)),
-      TabData("Base Stats", PokemonBaseStats()),
+      TabData("Base Stats", PokemonBaseStats(pokemon: pokemon)),
       TabData("Evolution", PokemonEvolution()),
       TabData("Moves", Container(color: Colors.orange)),
     ];

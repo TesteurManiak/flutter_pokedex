@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex/configs/AppColors.dart';
+import 'package:pokedex/models/pokemon.dart';
+import 'package:pokedex/utils/capitalizeFirst.dart';
 import 'package:pokedex/widgets/progress.dart';
 import 'package:provider/provider.dart';
 
-class Stat extends StatelessWidget {
-  const Stat({
+class StatWidget extends StatelessWidget {
+  const StatWidget({
     Key key,
     @required this.label,
     @required this.value,
@@ -50,23 +52,19 @@ class Stat extends StatelessWidget {
 }
 
 class PokemonBaseStats extends StatefulWidget {
-  const PokemonBaseStats({Key key}) : super(key: key);
+  const PokemonBaseStats({Key key, @required this.pokemon}) : super(key: key);
+
+  final Pokemon pokemon;
 
   @override
   _PokemonBaseStatsState createState() => _PokemonBaseStatsState();
 }
 
-class _PokemonBaseStatsState extends State<PokemonBaseStats> with SingleTickerProviderStateMixin {
+class _PokemonBaseStatsState extends State<PokemonBaseStats>
+    with SingleTickerProviderStateMixin {
   Animation<double> _animation;
   AnimationController _controller;
-  final List<Stat> _stats = [
-    Stat(label: "Attack", value: "60", progress: 60 / 100),
-    Stat(label: "Defense", value: "48", progress: 48 / 100),
-    Stat(label: "Sp. Atk", value: "65", progress: 65 / 100),
-    Stat(label: "Sp. Def", value: "65", progress: 65 / 100),
-    Stat(label: "Speed", value: "45", progress: 45 / 100),
-    Stat(label: "Total", value: "317", progress: 317 / 500),
-  ];
+  List<StatWidget> _stats = [];
 
   @override
   void dispose() {
@@ -75,9 +73,23 @@ class _PokemonBaseStatsState extends State<PokemonBaseStats> with SingleTickerPr
     super.dispose();
   }
 
+  _buildStats() {
+    widget.pokemon.stats.forEach((stat) {
+      _stats.add(StatWidget(
+        label: capitalizeFirst(stat.name),
+        value: stat.baseStat.toString(),
+        progress: stat.baseStat / 100,
+      ));
+    });
+    Iterable inReverse = _stats.reversed;
+    _stats = inReverse.toList();
+  }
+
   @override
   void initState() {
     super.initState();
+
+    _buildStats();
 
     _controller = AnimationController(
       vsync: this,
