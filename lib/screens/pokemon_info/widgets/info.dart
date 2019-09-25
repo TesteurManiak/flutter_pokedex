@@ -110,7 +110,7 @@ class _PokemonOverallInfoState extends State<PokemonOverallInfo>
           Opacity(
             opacity: 0.0,
             child: Text(
-              widget.pokemon.name,
+              capitalizeFirst(widget.pokemon.name),
               key: _targetTextKey,
               style: TextStyle(
                 color: Colors.white,
@@ -191,6 +191,15 @@ class _PokemonOverallInfoState extends State<PokemonOverallInfo>
     final fadeAnimation =
         Tween(begin: 1.0, end: 0.0).animate(cardScrollController);
 
+    List<Widget> typesRow = [];
+    widget.pokemon.types.forEach((type) {
+      if (typesRow.length > 0) typesRow.add(SizedBox(width: 7));
+      typesRow.add(Hero(
+        tag: type,
+        child: PokemonType(capitalizeFirst(type), large: true),
+      ));
+    });
+
     return AnimatedFade(
       animation: fadeAnimation,
       child: Padding(
@@ -200,19 +209,7 @@ class _PokemonOverallInfoState extends State<PokemonOverallInfo>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Hero(
-                  tag: "BulbasaurGrass",
-                  child: PokemonType("Grass", large: true),
-                ),
-                SizedBox(width: 7),
-                Hero(
-                  tag: "BulbasaurPoison",
-                  child: PokemonType("Poison", large: true),
-                ),
-              ],
-            ),
+            Row(children: typesRow),
             AnimatedSlide(
               animation: _slideController,
               child: Text(

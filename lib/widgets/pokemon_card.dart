@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/widgets/pokemon_type.dart';
 
-String _formattedPokeIndex(int index) {
-  return "#${((index + 1) / 100).toStringAsFixed(2).replaceAll(".", "")}";
-}
-
 String capitalizeFirstChar(String text) {
   if (text == null || text.length <= 1) {
     return text.toUpperCase();
@@ -100,7 +96,7 @@ class PokemonCard extends StatelessWidget {
         top: 10,
         right: 14,
         child: Text(
-          _formattedPokeIndex(this.index),
+          "#${pokemon.id}",
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
