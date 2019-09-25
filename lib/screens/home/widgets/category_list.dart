@@ -10,7 +10,7 @@ class CategoryList extends StatelessWidget {
       shrinkWrap: true,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 2.44,
+        childAspectRatio: 3.9,
         crossAxisSpacing: 10,
         mainAxisSpacing: 12,
       ),

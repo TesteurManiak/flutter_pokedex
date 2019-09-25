@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:pokedex/data/pokemons.dart';
 import 'package:pokedex/screens/pokedex/widgets/generation_modal.dart';
 import 'package:pokedex/screens/pokedex/widgets/search_modal.dart';
+import 'package:pokedex/utils/fetch_data.dart';
 import 'package:pokedex/widgets/fab.dart';
 import 'package:pokedex/widgets/poke_container.dart';
 import 'package:pokedex/widgets/pokemon_card.dart';
@@ -16,14 +17,22 @@ class _PokedexState extends State<Pokedex> with SingleTickerProviderStateMixin {
   Animation<double> _animation;
   AnimationController _controller;
 
+  Future _loadPkmn() async {
+    var api = PokeAPI();
+    pokemons.add(await api.fetchPokemon("ditto"));
+    setState(() {});
+  }
+
   @override
   void initState() {
+    _loadPkmn();
     _controller = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 260),
     );
 
-    final curvedAnimation = CurvedAnimation(curve: Curves.easeInOut, parent: _controller);
+    final curvedAnimation =
+        CurvedAnimation(curve: Curves.easeInOut, parent: _controller);
     _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
 
     super.initState();
@@ -78,7 +87,7 @@ class _PokedexState extends State<Pokedex> with SingleTickerProviderStateMixin {
                   itemCount: pokemons.length,
                   itemBuilder: (context, index) => PokemonCard(
                     pokemons[index],
-                    index: index,
+                    index: pokemons[index].id,
                     onPress: () {
                       Navigator.of(context).pushNamed("/pokemon-info");
                     },
