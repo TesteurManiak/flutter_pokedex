@@ -122,6 +122,9 @@ class Pokemon {
       case 'psychic':
         color = AppColors.lightPurple;
         break;
+      case 'ground':
+        color = AppColors.lightBrown;
+        break;
       default:
         color = AppColors.myGrey;
         break;

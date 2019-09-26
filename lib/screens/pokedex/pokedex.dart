@@ -78,16 +78,27 @@ class _PokedexState extends State<Pokedex> with SingleTickerProviderStateMixin {
                     mainAxisSpacing: 10,
                   ),
                   padding: EdgeInsets.only(left: 28, right: 28, bottom: 58),
-                  itemCount: pokemons.length,
-                  itemBuilder: (context, index) => PokemonCard(
-                    pokemons[index],
-                    index: pokemons[index].id,
-                    onPress: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                PokemonInfo(pokemons[index]))),
-                  ),
+                  itemCount: pokemons.length + 1,
+                  itemBuilder: (context, index) {
+                    return index == pokemons.length
+                        ? RaisedButton(
+                            child: Text("Load more"),
+                            onPressed: () {
+                              setState(() {
+                                PokeAPI().fetchNext();
+                              });
+                            },
+                          )
+                        : PokemonCard(
+                            pokemons[index],
+                            index: pokemons[index].id,
+                            onPress: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        PokemonInfo(pokemons[index]))),
+                          );
+                  },
                 ),
               ),
             ],

@@ -23,7 +23,6 @@ class _HomeState extends State<Home> {
   Future _loadPkmn() async {
     var api = PokeAPI();
     await api.fetchNext();
-    //pokemons.add(await api.fetchPokemon("ditto"));
     setState(() {});
   }
 
