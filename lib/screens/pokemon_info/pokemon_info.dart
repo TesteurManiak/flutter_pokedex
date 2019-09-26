@@ -63,7 +63,7 @@ class _PokemonInfoState extends State<PokemonInfo>
     return ListenableProvider(
       builder: (context) => _cardController,
       child: Scaffold(
-        backgroundColor: Color(0xFF48D0B0),
+        backgroundColor: widget.pokemon.color,
         body: Stack(
           children: <Widget>[
             AnimatedBuilder(

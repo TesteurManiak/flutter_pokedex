@@ -22,9 +22,7 @@ class _HomeState extends State<Home> {
 
   Future _loadPkmn() async {
     var api = PokeAPI();
-    for (int i = 0; i < api.limitRequest; i++) {
-      pokemons.add(await api.fetchPokemon((pokemons.length + 1).toString()));
-    }
+    await api.fetchNext();
     //pokemons.add(await api.fetchPokemon("ditto"));
     setState(() {});
   }
@@ -129,35 +127,44 @@ class _HomeState extends State<Home> {
     _cardHeight = screenHeight * Home.cardHeightFraction;
 
     return Scaffold(
-      body: NestedScrollView(
-        controller: _scrollController,
-        headerSliverBuilder: (_, __) => [
-          SliverAppBar(
-            expandedHeight: 500,
-            floating: true,
-            pinned: true,
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(30),
-              ),
-            ),
-            backgroundColor: Colors.red,
-            flexibleSpace: FlexibleSpaceBar(
-              collapseMode: CollapseMode.pin,
-              centerTitle: true,
-              title: _showTitle
-                  ? Text(
-                      "Pokedex",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )
-                  : null,
-              background: _buildCard(),
-            ),
-          ),
-        ],
-        body: _buildNews(),
-      ),
+      body: pokemons.length > 0
+          ? NestedScrollView(
+              controller: _scrollController,
+              headerSliverBuilder: (_, __) => [
+                SliverAppBar(
+                  expandedHeight: 500,
+                  floating: true,
+                  pinned: true,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      bottom: Radius.circular(30),
+                    ),
+                  ),
+                  backgroundColor: Colors.red,
+                  flexibleSpace: FlexibleSpaceBar(
+                    collapseMode: CollapseMode.pin,
+                    centerTitle: true,
+                    title: _showTitle
+                        ? Text(
+                            "Pokedex",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )
+                        : null,
+                    background: _buildCard(),
+                  ),
+                ),
+              ],
+              body: _buildNews(),
+            )
+          : _buildLoadingScreen(),
+    );
+  }
+
+  Widget _buildLoadingScreen() {
+    return Container(
+      alignment: Alignment.center,
+      child: CircularProgressIndicator(),
     );
   }
 }

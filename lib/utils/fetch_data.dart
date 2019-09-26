@@ -1,20 +1,26 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:pokedex/data/pokemons.dart';
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/models/specie.dart';
 
 class PokeAPI {
   final String _apiUrl = "https://pokeapi.co/api/v2";
-  final int limitRequest = 20;
+  final int limitRequest = 10;
 
-  /// Return a list of the 20 first pokemon
-  Future<List<Pokemon>> fetchFirstList() async {
+  /// load the next pokemon in the list
+  Future fetchNext() async {
     final response = await http.get("$_apiUrl/pokemon/");
     if (response.statusCode == 200) {
-      List<Pokemon> pkmnList = [];
       var json = jsonDecode(response.body);
-      return pkmnList;
+      int count = json['count'];
+      int nbRequest = pokemons.length + limitRequest > count
+          ? count - pokemons.length
+          : limitRequest;
+      for (int i = 0; i < nbRequest; i++) {
+        pokemons.add(await fetchPokemon((pokemons.length + 1).toString()));
+      }
     } else {
       throw Exception('Failed to load pokemon list');
     }

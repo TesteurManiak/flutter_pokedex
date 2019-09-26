@@ -58,6 +58,8 @@ class Pokemon {
     json['types'].forEach((type) {
       types.add(type['type']['name']);
     });
+    Iterable inReverse = types.reversed;
+    types = inReverse.toList();
 
     List<Ability> abilities = [];
     json['abilities'].forEach((ability) {
@@ -97,8 +99,36 @@ class Pokemon {
       stats.add(Stat.fromJson(stat));
     });
 
+    Color color;
+    switch (types[0]) {
+      case 'poison':
+        color = AppColors.purple;
+        break;
+      case 'grass':
+        color = AppColors.lightTeal;
+        break;
+      case 'fire':
+        color = AppColors.lightRed;
+        break;
+      case 'water':
+        color = AppColors.lightBlue;
+        break;
+      case 'electric':
+        color = AppColors.lightYellow;
+        break;
+      case 'bug':
+        color = AppColors.green;
+        break;
+      case 'psychic':
+        color = AppColors.lightPurple;
+        break;
+      default:
+        color = AppColors.myGrey;
+        break;
+    }
+
     return Pokemon(
-      color: AppColors.lightTeal,
+      color: color,
       image: json['sprites']['front_default'],
       name: json['name'],
       types: types,
