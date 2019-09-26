@@ -18,6 +18,22 @@ class _PokedexState extends State<Pokedex> with SingleTickerProviderStateMixin {
   Animation<double> _animation;
   AnimationController _controller;
 
+  bool isLoading = false;
+
+  ScrollController controller;
+
+  _scrollListener() {
+    if (controller.position.pixels == controller.position.maxScrollExtent) {
+      startLoader();
+    }
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   void initState() {
     _controller = AnimationController(
@@ -30,6 +46,7 @@ class _PokedexState extends State<Pokedex> with SingleTickerProviderStateMixin {
     _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
 
     super.initState();
+    controller = ScrollController()..addListener(_scrollListener);
   }
 
   void _showSearchModal() {
@@ -46,6 +63,50 @@ class _PokedexState extends State<Pokedex> with SingleTickerProviderStateMixin {
       backgroundColor: Colors.transparent,
       builder: (context) => GenerationModal(),
     );
+  }
+
+  Widget _buildLoadedPkmn() {
+    return GridView.builder(
+      controller: controller,
+      physics: BouncingScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 1.4,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+      ),
+      padding: EdgeInsets.only(left: 28, right: 28, bottom: 58),
+      itemCount: pokemons.length,
+      itemBuilder: (context, index) {
+        return PokemonCard(
+          pokemons[index],
+          index: pokemons[index].id,
+          onPress: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      PokemonInfo(pokemons[index]))),
+        );
+      },
+    );
+  }
+
+  Widget _loader() {
+    return isLoading
+        ? Align(
+            child: Container(
+              width: 70.0,
+              height: 70.0,
+              child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Center(child: CircularProgressIndicator())),
+            ),
+            alignment: FractionalOffset.bottomCenter,
+          )
+        : SizedBox(
+            width: 0.0,
+            height: 0.0,
+          );
   }
 
   @override
@@ -69,40 +130,11 @@ class _PokedexState extends State<Pokedex> with SingleTickerProviderStateMixin {
               ),
               SizedBox(height: 32),
               Expanded(
-                child: GridView.builder(
-                  physics: BouncingScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 1.4,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                  ),
-                  padding: EdgeInsets.only(left: 28, right: 28, bottom: 58),
-                  itemCount: pokemons.length + 1,
-                  itemBuilder: (context, index) {
-                    return index == pokemons.length
-                        ? RaisedButton(
-                            child: Text("Load more"),
-                            onPressed: () {
-                              setState(() {
-                                PokeAPI().fetchNext();
-                              });
-                            },
-                          )
-                        : PokemonCard(
-                            pokemons[index],
-                            index: pokemons[index].id,
-                            onPress: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        PokemonInfo(pokemons[index]))),
-                          );
-                  },
-                ),
+                child: _buildLoadedPkmn(),
               ),
             ],
           ),
+          _loader(),
           AnimatedBuilder(
             animation: _animation,
             builder: (_, __) {
@@ -164,5 +196,20 @@ class _PokedexState extends State<Pokedex> with SingleTickerProviderStateMixin {
         },
       ),
     );
+  }
+
+  void startLoader() {
+    setState(() {
+      isLoading = !isLoading;
+      fetchData();
+    });
+  }
+
+  void fetchData() async {
+    PokeAPI().fetchNext().then((_) {
+      setState(() {
+        isLoading = !isLoading;
+      });
+    });
   }
 }

@@ -7,10 +7,10 @@ import 'package:pokedex/models/specie.dart';
 
 class PokeAPI {
   final String _apiUrl = "https://pokeapi.co/api/v2";
-  final int limitRequest = 10;
+  final int limitRequest = 8;
 
   /// load the next pokemon in the list
-  Future fetchNext() async {
+  Future fetchNext([int nbRequest = 10]) async {
     final response = await http.get("$_apiUrl/pokemon/");
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);

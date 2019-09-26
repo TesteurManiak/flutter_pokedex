@@ -125,6 +125,9 @@ class Pokemon {
       case 'ground':
         color = AppColors.lightBrown;
         break;
+      case 'fighting':
+        color = AppColors.brown;
+        break;
       default:
         color = AppColors.myGrey;
         break;
