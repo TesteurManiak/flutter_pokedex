@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pokedex/configs/AppColors.dart';
 import 'package:pokedex/data/pokemons.dart';
 import 'package:pokedex/screens/home/widgets/category_list.dart';
@@ -124,6 +125,9 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     _cardHeight = screenHeight * Home.cardHeightFraction;
+
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: Colors.black));
 
     return Scaffold(
       body: pokemons.length > 0

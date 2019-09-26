@@ -7,17 +7,16 @@ import 'package:pokedex/models/specie.dart';
 
 class PokeAPI {
   final String _apiUrl = "https://pokeapi.co/api/v2";
-  final int limitRequest = 8;
 
   /// load the next pokemon in the list
-  Future fetchNext([int nbRequest = 10]) async {
+  Future fetchNext([int maxRequest = 16]) async {
     final response = await http.get("$_apiUrl/pokemon/");
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       int count = json['count'];
-      int nbRequest = pokemons.length + limitRequest > count
+      int nbRequest = pokemons.length + maxRequest > count
           ? count - pokemons.length
-          : limitRequest;
+          : maxRequest;
       for (int i = 0; i < nbRequest; i++) {
         pokemons.add(await fetchPokemon((pokemons.length + 1).toString()));
       }
