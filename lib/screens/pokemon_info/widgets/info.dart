@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex/models/pokemon.dart';
@@ -273,8 +274,10 @@ class _PokemonOverallInfoState extends State<PokemonOverallInfo>
                     top: _currentPage == index ? 0 : screenHeight * 0.04,
                     bottom: _currentPage == index ? 0 : screenHeight * 0.04,
                   ),
-                  child: Image.network(
-                    widget.pokemon.sprites[index],
+                  child: CachedNetworkImage(
+                    imageUrl: widget.pokemon.sprites[index],
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                     alignment: Alignment.bottomCenter,
                     color: _currentPage == index ? null : Color(0xFF28A889),
                   ),

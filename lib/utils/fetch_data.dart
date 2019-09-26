@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:pokedex/models/pokemon.dart';
+import 'package:pokedex/models/specie.dart';
 
 class PokeAPI {
   final String _apiUrl = "https://pokeapi.co/api/v2";
-  final int _limitRequest = 20;
+  final int limitRequest = 20;
 
   /// Return a list of the 20 first pokemon
   Future<List<Pokemon>> fetchFirstList() async {
@@ -26,6 +27,26 @@ class PokeAPI {
     final response = await http.get("$_apiUrl/pokemon/$id");
     if (response.statusCode == 200) {
       return Pokemon.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load pokemon $id');
+    }
+  }
+
+  Future fetchSpecies(Specie species) async {
+    final response = await http.get(species.url);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> json = jsonDecode(response.body);
+      species.baseHappiness = json['base_happiness'];
+      species.captureRate = json['apture_rate'];
+      for (final entry in json['flavor_text_entries']) {
+        if (entry['language']['name'] == "en") {
+          species.flavorText =
+              entry['flavor_text'].toString().replaceAll(RegExp(r'\n'), " ");
+          break;
+        }
+      }
+    } else {
+      throw Exception('Failed to load species ${species.name}');
     }
   }
 }

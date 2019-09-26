@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/widgets/pokemon_type.dart';
@@ -83,13 +84,7 @@ class PokemonCard extends StatelessWidget {
         right: 12,
         child: Hero(
           tag: pokemon.image,
-          child: Image.network(
-            pokemon.image,
-            fit: BoxFit.contain,
-            width: itemHeight * 0.6,
-            height: itemHeight * 0.6,
-            alignment: Alignment.bottomRight,
-          ),
+          child: _buildImage(itemHeight),
         ),
       ),
       Positioned(
@@ -144,6 +139,18 @@ class PokemonCard extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildImage(double itemHeight) {
+    return CachedNetworkImage(
+      imageUrl: pokemon.image,
+      placeholder: (context, url) => CircularProgressIndicator(),
+      errorWidget: (context, url, error) => Icon(Icons.error),
+      fit: BoxFit.contain,
+      width: itemHeight * 0.6,
+      height: itemHeight * 0.6,
+      alignment: Alignment.bottomRight,
     );
   }
 }
