@@ -18,6 +18,25 @@ class AppColors {
   static const Color red = Color(0xFFFA6555);
   static const Color teal = Color(0xFF4FC1A6);
   static const Color yellow = Color(0xFFF6C747);
-  static const Color green = Color(0xff4fdb1d);
-  static const Color myGrey = Color(0xffB2BEC3);
+
+  // Pokemon Type Colors
+  static const Color flyBlue = Color(0xffA890F0);
+  static const Color ghostPurple = Color(0xff705898);
+  static const Color steelGrey = Color(0xffB8B8D0);
+  static const Color dragonYellow = Color(0xffC6A114);
+  static const Color electricYellow = Color(0xffF8D030);
+  static const Color fireRed = Color(0xffF08030);
+  static const Color bugGreen = Color(0xffA8B820);
+  static const Color grassGreen = Color(0xff78C850);
+  static const Color psychicPurple = Color(0xffF85888);
+  static const Color groundBrown = Color(0xffE0C068);
+  static const Color darkBlack = Color(0xff705848);
+  static const Color fightBrown = Color(0xffFF501F);
+  static const Color waterBlue = Color(0xff5BC7E5);
+  static const Color fairyPink = Color(0xffEE99AC);
+  static const Color iceBlue = Color(0xff98D8D8);
+  static const Color normalGrey = Color(0xffA8A878);
+  static const Color poisonPurple = Color(0xffA040A0);
+  static const Color rockBrown = Color(0xffB8A038);
+  static const Color unknownGrey = Color(0xff68A090);
 }

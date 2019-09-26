@@ -101,35 +101,62 @@ class Pokemon {
 
     Color color;
     switch (types[0]) {
+      case 'rock':
+        color = AppColors.rockBrown;
+        break;
+      case 'ice':
+        color = AppColors.iceBlue;
+        break;
+      case 'fairy':
+        color = AppColors.fairyPink;
+        break;
+      case 'dark':
+        color = AppColors.darkBlack;
+        break;
+      case 'steel':
+        color = AppColors.steelGrey;
+        break;
+      case 'dragon':
+        color = AppColors.dragonYellow;
+        break;
+      case 'flying':
+        color = AppColors.flyBlue;
+        break;
+      case 'ghost':
+        color = AppColors.ghostPurple;
+        break;
       case 'poison':
-        color = AppColors.purple;
+        color = AppColors.poisonPurple;
         break;
       case 'grass':
-        color = AppColors.lightTeal;
+        color = AppColors.grassGreen;
         break;
       case 'fire':
-        color = AppColors.lightRed;
+        color = AppColors.fireRed;
         break;
       case 'water':
-        color = AppColors.lightBlue;
+        color = AppColors.waterBlue;
         break;
       case 'electric':
-        color = AppColors.lightYellow;
+        color = AppColors.electricYellow;
         break;
       case 'bug':
-        color = AppColors.green;
+        color = AppColors.bugGreen;
         break;
       case 'psychic':
-        color = AppColors.lightPurple;
+        color = AppColors.psychicPurple;
         break;
       case 'ground':
-        color = AppColors.lightBrown;
+        color = AppColors.groundBrown;
         break;
       case 'fighting':
-        color = AppColors.brown;
+        color = AppColors.fightBrown;
+        break;
+      case 'normal':
+        color = AppColors.normalGrey;
         break;
       default:
-        color = AppColors.myGrey;
+        color = AppColors.unknownGrey;
         break;
     }
 
