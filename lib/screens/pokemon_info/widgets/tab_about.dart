@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pokedex/configs/AppColors.dart';
 import 'package:pokedex/models/pokemon.dart';
+import 'package:pokedex/utils/capitalizeFirst.dart';
 import 'package:provider/provider.dart';
 
 class PokemonAbout extends StatelessWidget {
@@ -85,6 +86,14 @@ class PokemonAbout extends StatelessWidget {
   }
 
   Widget _buildBreeding() {
+    String eggGroups = "";
+    pokemon.species.eggGroups.forEach((group) {
+      if (eggGroups.isNotEmpty) {
+        eggGroups += ", ${capitalizeFirst(group.name)}";
+      } else {
+        eggGroups += capitalizeFirst(group.name);
+      }
+    });
     return _buildSection("Breeding", children: [
       Row(
         children: <Widget>[
@@ -94,7 +103,11 @@ class PokemonAbout extends StatelessWidget {
               children: <Widget>[
                 Image.asset("assets/images/male.png", width: 12, height: 12),
                 SizedBox(width: 4),
-                Text("87.5%", style: TextStyle(height: 0.8)),
+                Text(
+                    ((1 - pokemon.species.femaleRate / 8) * 100)
+                            .toStringAsFixed(1) +
+                        "%",
+                    style: TextStyle(height: 0.8)),
               ],
             ),
           ),
@@ -104,7 +117,10 @@ class PokemonAbout extends StatelessWidget {
               children: <Widget>[
                 Image.asset("assets/images/female.png", width: 12, height: 12),
                 SizedBox(width: 4),
-                Text("12.5%", style: TextStyle(height: 0.8)),
+                Text(
+                    (pokemon.species.femaleRate / 8 * 100).toStringAsFixed(1) +
+                        "%",
+                    style: TextStyle(height: 0.8)),
               ],
             ),
           ),
@@ -114,15 +130,7 @@ class PokemonAbout extends StatelessWidget {
       Row(
         children: <Widget>[
           Expanded(child: _buildLabel("Egg Groups")),
-          Expanded(child: Text("Monster", style: TextStyle(height: 0.8))),
-          Expanded(flex: 2, child: SizedBox()),
-        ],
-      ),
-      SizedBox(height: 18),
-      Row(
-        children: <Widget>[
-          Expanded(child: _buildLabel("Egg Cycle")),
-          Expanded(child: Text("Grass", style: TextStyle(height: 0.8))),
+          Expanded(child: Text(eggGroups, style: TextStyle(height: 0.8))),
           Expanded(flex: 2, child: SizedBox()),
         ],
       ),

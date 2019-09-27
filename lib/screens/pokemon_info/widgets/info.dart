@@ -214,7 +214,7 @@ class _PokemonOverallInfoState extends State<PokemonOverallInfo>
             AnimatedSlide(
               animation: _slideController,
               child: Text(
-                "Seed Pokemon",
+                widget.pokemon.species.genus,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 14,

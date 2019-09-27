@@ -7,6 +7,7 @@ import 'package:pokedex/models/specie.dart';
 
 class PokeAPI {
   final String _apiUrl = "https://pokeapi.co/api/v2";
+  final String _genderUrl = "https://pokeapi.co/api/v2/gender/1/";
 
   /// load the next pokemon in the list
   Future fetchNext([int maxRequest = 16]) async {
@@ -43,6 +44,10 @@ class PokeAPI {
       Map<String, dynamic> json = jsonDecode(response.body);
       species.baseHappiness = json['base_happiness'];
       species.captureRate = json['apture_rate'];
+      species.eggGroups = [];
+      json['egg_groups'].forEach((group) {
+        species.eggGroups.add(EggGroup.fromJson(group));
+      });
       for (final entry in json['flavor_text_entries']) {
         if (entry['language']['name'] == "en") {
           species.flavorText =
@@ -50,8 +55,29 @@ class PokeAPI {
           break;
         }
       }
+      for (final entry in json['genera']) {
+        if (entry['language']['name'] == "en") {
+          species.genus = entry['genus'];
+          break;
+        }
+      }
     } else {
       throw Exception('Failed to load species ${species.name}');
+    }
+  }
+
+  Future fetchGenderRate(Specie species) async {
+    final response = await http.get(_genderUrl);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> json = jsonDecode(response.body);
+      for (final specie in json['pokemon_species_details']) {
+        if (specie['pokemon_species']['name'] == species.name.toLowerCase()) {
+          species.femaleRate = specie['rate'];
+          break;
+        }
+      }
+    } else {
+      throw Exception('Failed to load gender rate');
     }
   }
 }

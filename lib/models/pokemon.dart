@@ -9,8 +9,6 @@ import 'package:pokedex/models/stat.dart';
 
 /// To add:
 /// held_items
-/// types
-/// weight
 
 class Pokemon {
   const Pokemon({
