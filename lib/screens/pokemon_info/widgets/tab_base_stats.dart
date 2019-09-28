@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex/configs/AppColors.dart';
+import 'package:pokedex/data/max_stats.dart';
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/utils/capitalizeFirst.dart';
 import 'package:pokedex/widgets/progress.dart';
@@ -74,13 +75,13 @@ class _PokemonBaseStatsState extends State<PokemonBaseStats>
   }
 
   _buildStats() {
-    widget.pokemon.stats.forEach((stat) {
+    for (int i = 0; i < maxStats.length; i++) {
       _stats.add(StatWidget(
-        label: capitalizeFirst(stat.name),
-        value: stat.baseStat.toString(),
-        progress: stat.baseStat / 100,
+        label: capitalizeFirst(widget.pokemon.stats[i].name),
+        value: widget.pokemon.stats[i].baseStat.toString(),
+        progress: widget.pokemon.stats[i].baseStat / maxStats[i],
       ));
-    });
+    }
     Iterable inReverse = _stats.reversed;
     _stats = inReverse.toList();
   }
