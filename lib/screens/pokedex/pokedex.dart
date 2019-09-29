@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pokedex/data/pokemons.dart';
+import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/screens/pokedex/widgets/generation_modal.dart';
 import 'package:pokedex/screens/pokedex/widgets/search_modal.dart';
 import 'package:pokedex/screens/pokemon_info/pokemon_info.dart';
@@ -49,11 +50,15 @@ class _PokedexState extends State<Pokedex> with SingleTickerProviderStateMixin {
     controller = ScrollController()..addListener(_scrollListener);
   }
 
+  _refreshPage() {
+    setState(() {});
+  }
+
   void _showSearchModal() {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (context) => SearchBottomModal(),
+      builder: (context) => SearchBottomModal(_refreshPage),
     );
   }
 
@@ -66,6 +71,20 @@ class _PokedexState extends State<Pokedex> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildLoadedPkmn() {
+    searchResult = pokemons;
+    if (searchText.isNotEmpty) {
+      List<Pokemon> tmpList = [];
+      for (int i = 0; i < searchResult.length; i++) {
+        if (searchResult[i]
+            .name
+            .toLowerCase()
+            .contains(searchText.toLowerCase())) {
+          tmpList.add(searchResult[i]);
+        }
+      }
+      searchResult = tmpList;
+    }
+
     return GridView.builder(
       controller: controller,
       physics: BouncingScrollPhysics(),
@@ -76,16 +95,16 @@ class _PokedexState extends State<Pokedex> with SingleTickerProviderStateMixin {
         mainAxisSpacing: 10,
       ),
       padding: EdgeInsets.only(left: 28, right: 28, bottom: 58),
-      itemCount: pokemons.length,
+      itemCount: searchResult.length,
       itemBuilder: (context, index) {
         return PokemonCard(
-          pokemons[index],
-          index: pokemons[index].id,
+          searchResult[index],
+          index: searchResult[index].id,
           onPress: () => Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (BuildContext context) =>
-                      PokemonInfo(pokemons[index]))),
+                      PokemonInfo(searchResult[index]))),
         );
       },
     );

@@ -1,13 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/configs/AppColors.dart';
+import 'package:pokedex/data/pokemons.dart';
 
 class SearchBar extends StatelessWidget {
-  const SearchBar({
+  final EdgeInsets margin;
+  final Function refreshFunc;
+
+  SearchBar({
     Key key,
     this.margin = const EdgeInsets.symmetric(horizontal: 28),
-  }) : super(key: key);
+    this.refreshFunc,
+  }) : super(key: key) {
+    _filter.addListener(() {
+      if (_filter.text.isEmpty) {
+        searchText = "";
+        searchResult = pokemons;
+        refreshFunc();
+      } else {
+        searchText = _filter.text;
+        refreshFunc();
+      }
+    });
+  }
 
-  final EdgeInsets margin;
+  final TextEditingController _filter = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +42,7 @@ class SearchBar extends StatelessWidget {
           SizedBox(width: 13),
           Expanded(
             child: TextFormField(
+              controller: _filter,
               decoration: InputDecoration(
                 hintText: "Search Pokemon, Move, Ability etc",
                 hintStyle: TextStyle(

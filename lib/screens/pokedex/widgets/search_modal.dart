@@ -2,6 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:pokedex/screens/home/widgets/search_bar.dart';
 
 class SearchBottomModal extends StatelessWidget {
+  final Function refresh;
+
+  SearchBottomModal(this.refresh);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,7 +29,10 @@ class SearchBottomModal extends StatelessWidget {
             ),
           ),
           SizedBox(height: 18),
-          SearchBar(margin: EdgeInsets.all(0)),
+          SearchBar(
+            margin: EdgeInsets.all(0),
+            refreshFunc: refresh,
+          ),
           SizedBox(height: MediaQuery.of(context).viewInsets.bottom + 18),
         ],
       ),
