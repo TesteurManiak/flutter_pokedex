@@ -161,7 +161,7 @@ class Pokemon {
     return Pokemon(
       color: color,
       image: json['sprites']['front_default'],
-      name: json['name'],
+      name: json['name'].toString().split("-").first,
       types: types,
       id: json['id'],
       abilities: abilities,
@@ -184,8 +184,20 @@ class Pokemon {
 
   _pkmnToJson(Pokemon pokemon) {
     var abilities = [];
+    this.abilities.forEach((ability) {
+      abilities.add(ability.toJson());
+    });
+
     var forms = [];
+    this.forms.forEach((form) {
+      forms.add(form.toJson());
+    });
+
     var gameIndices = [];
+    this.gameIndices.forEach((indice) {
+      gameIndices.add(indice.toJson());
+    });
+    
     var heldItems = [];
     var moves = [];
     var stats = [];

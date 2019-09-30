@@ -10,4 +10,10 @@ class Form {
       json['url'],
     );
   }
+
+  Map<String, dynamic> toJson() => _formToJson(this);
+
+  _formToJson(Form form) {
+    return {"name": form.name, "url": form.url};
+  }
 }
