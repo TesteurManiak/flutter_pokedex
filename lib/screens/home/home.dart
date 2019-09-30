@@ -110,12 +110,15 @@ class _HomeState extends State<Home> {
                   fontWeight: FontWeight.w900,
                 ),
               ),
-              Text(
-                "View All",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.indigo,
+              FlatButton(
+                onPressed: () {},
+                child: Text(
+                  "View All",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.indigo,
+                  ),
                 ),
               ),
             ],
