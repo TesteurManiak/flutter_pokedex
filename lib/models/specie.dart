@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/data/pokemons.dart';
 import 'package:pokedex/utils/fetch_data.dart';
 
 class EggGroup {
@@ -22,10 +23,7 @@ class Specie {
   List<EggGroup> eggGroups;
   int femaleRate;
 
-  Specie({@required this.name, @required this.url}) {
-    PokeAPI().fetchSpecies(this);
-    PokeAPI().fetchGenderRate(this);
-  }
+  Specie({@required this.name, @required this.url});
 
   factory Specie.fromJson(json) {
     return Specie(

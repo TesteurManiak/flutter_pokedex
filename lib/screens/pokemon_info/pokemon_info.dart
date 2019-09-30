@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/data/pokemons.dart';
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/screens/pokemon_info/widgets/info.dart';
 import 'package:pokedex/screens/pokemon_info/widgets/tab.dart';
@@ -26,6 +27,12 @@ class _PokemonInfoState extends State<PokemonInfo>
   double _cardMinHeight = 0.0;
   double _cardMaxHeight = 0.0;
 
+  _loadPkmnInfo() async {
+    await api.fetchSpecies(widget.pokemon.species);
+    await api.fetchGenderRate(widget.pokemon.species);
+    setState(() {});
+  }
+
   @override
   void initState() {
     _cardController = AnimationController(
@@ -48,6 +55,11 @@ class _PokemonInfoState extends State<PokemonInfo>
     });
 
     super.initState();
+
+    if (widget.pokemon.species.genus == null ||
+        widget.pokemon.species.femaleRate == null) {
+      _loadPkmnInfo();
+    }
   }
 
   @override

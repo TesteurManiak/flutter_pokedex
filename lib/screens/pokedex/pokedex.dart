@@ -225,7 +225,7 @@ class _PokedexState extends State<Pokedex> with SingleTickerProviderStateMixin {
   }
 
   void fetchData() async {
-    PokeAPI().fetchNext().then((_) {
+    api.fetchNext().then((_) {
       setState(() {
         isLoading = !isLoading;
       });

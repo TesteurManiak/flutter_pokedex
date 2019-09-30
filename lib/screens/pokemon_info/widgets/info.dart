@@ -213,13 +213,15 @@ class _PokemonOverallInfoState extends State<PokemonOverallInfo>
             Row(children: typesRow),
             AnimatedSlide(
               animation: _slideController,
-              child: Text(
-                widget.pokemon.species.genus,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                ),
-              ),
+              child: widget.pokemon.species.genus == null
+                  ? CircularProgressIndicator()
+                  : Text(
+                      widget.pokemon.species.genus,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                    ),
             ),
           ],
         ),

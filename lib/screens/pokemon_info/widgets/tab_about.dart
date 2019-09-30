@@ -172,6 +172,14 @@ class PokemonAbout extends StatelessWidget {
   Widget build(BuildContext context) {
     final cardController = Provider.of<AnimationController>(context);
 
+    if (pokemon.species.flavorText == null) {
+      return Container(
+        height: 28,
+        width: 28,
+        child: CircularProgressIndicator(),
+      );
+    }
+
     return AnimatedBuilder(
       animation: cardController,
       child: Column(

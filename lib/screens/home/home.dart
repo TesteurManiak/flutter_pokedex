@@ -23,7 +23,6 @@ class _HomeState extends State<Home> {
   bool _showToolbarColor;
 
   Future _loadPkmn() async {
-    var api = PokeAPI();
     await api.fetchTotalPkmn();
     await loadAllSavedPkmn();
     if (pokemons.isEmpty) {
