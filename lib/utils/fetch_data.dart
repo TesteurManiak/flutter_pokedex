@@ -26,6 +26,7 @@ class PokeAPI {
     for (int i = 0; i < nbRequest; i++) {
       pokemons.add(await fetchPokemon((pokemons.length + 1).toString()));
     }
+    pokemons = pokemons.toSet().toList();
   }
 
   /// Return a pokemon object fetch from the API.

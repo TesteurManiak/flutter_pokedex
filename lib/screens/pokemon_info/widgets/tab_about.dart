@@ -105,7 +105,7 @@ class PokemonAbout extends StatelessWidget {
                 Image.asset("assets/images/male.png", width: 12, height: 12),
                 SizedBox(width: 4),
                 Text(
-                    pokemon.species.femaleRate == -1
+                    pokemon.species.femaleRate == null
                         ? "0.0%"
                         : ((1 - pokemon.species.femaleRate / 8) * 100)
                                 .toStringAsFixed(1) +
@@ -121,7 +121,7 @@ class PokemonAbout extends StatelessWidget {
                 Image.asset("assets/images/female.png", width: 12, height: 12),
                 SizedBox(width: 4),
                 Text(
-                    pokemon.species.femaleRate == -1
+                    pokemon.species.femaleRate == null
                         ? "0.0%"
                         : (pokemon.species.femaleRate / 8 * 100)
                                 .toStringAsFixed(1) +
