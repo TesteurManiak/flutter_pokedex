@@ -34,17 +34,11 @@ class VersionGroupDetail {
 class Move {
   String name;
   String url;
+  int accuracy;
 
-  List<VersionGroupDetail> versionGroupDetails;
-
-  Move(this.name, this.url, this.versionGroupDetails);
+  Move(this.name, this.url);
 
   factory Move.fromJson(json) {
-    List<VersionGroupDetail> versionGroupDetails = [];
-    json['version_group_details'].forEach((versionDet) {
-      versionGroupDetails.add(VersionGroupDetail.fromJson(versionDet));
-    });
-
-    return Move(json['move']['name'], json['move']['url'], versionGroupDetails);
+    return Move(json['move']['name'], json['move']['url']);
   }
 }

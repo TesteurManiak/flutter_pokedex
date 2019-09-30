@@ -5,6 +5,7 @@ import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/screens/pokemon_info/widgets/tab_about.dart';
 import 'package:pokedex/screens/pokemon_info/widgets/tab_base_stats.dart';
 import 'package:pokedex/screens/pokemon_info/widgets/tab_evolution.dart';
+import 'package:pokedex/screens/pokemon_info/widgets/tab_moves.dart';
 import 'package:provider/provider.dart';
 
 class TabData {
@@ -50,7 +51,7 @@ class PokemonTabInfo extends StatelessWidget {
       TabData("About", PokemonAbout(pokemon)),
       TabData("Base Stats", PokemonBaseStats(pokemon: pokemon)),
       TabData("Evolution", PokemonEvolution(pokemon)),
-      TabData("Moves", Container(color: Colors.orange)),
+      TabData("Moves", PokemonMoves(pokemon)),
     ];
 
     return DefaultTabController(
