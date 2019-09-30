@@ -22,6 +22,7 @@ class Specie {
   String genus;
   List<EggGroup> eggGroups;
   int femaleRate;
+  String evolutionChain;
 
   Specie({@required this.name, @required this.url});
 

@@ -60,7 +60,8 @@ class PokeAPI {
     if (response.statusCode == 200) {
       Map<String, dynamic> json = jsonDecode(response.body);
       species.baseHappiness = json['base_happiness'];
-      species.captureRate = json['apture_rate'];
+      species.captureRate = json['capture_rate'];
+      species.evolutionChain = json['evolution_chain']['url'];
       species.eggGroups = [];
       json['egg_groups'].forEach((group) {
         species.eggGroups.add(EggGroup.fromJson(group));
@@ -86,7 +87,7 @@ class PokeAPI {
   Future fetchGenderRate(Specie species) async {
     final response = await http.get(_genderUrl);
     if (response.statusCode == 200) {
-      Map<String, dynamic> json = jsonDecode(response.body);
+      var json = jsonDecode(response.body);
       for (final specie in json['pokemon_species_details']) {
         if (specie['pokemon_species']['name'] == species.name.toLowerCase()) {
           species.femaleRate = specie['rate'];
@@ -95,6 +96,16 @@ class PokeAPI {
       }
     } else {
       throw Exception('Failed to load gender rate');
+    }
+  }
+
+  Future fetchEvolutionChain(Specie species) async {
+    final response = await http.get(species.evolutionChain);
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+    } else {
+      throw Exception(
+          'Failed to load evolution chain of species ${species.name}');
     }
   }
 }

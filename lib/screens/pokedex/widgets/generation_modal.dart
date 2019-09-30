@@ -43,7 +43,7 @@ class GenerationModal extends StatelessWidget {
                 controller: scrollController,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 1.55,
+                  childAspectRatio: 1.57,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                 ),

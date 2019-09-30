@@ -30,6 +30,7 @@ class _PokemonInfoState extends State<PokemonInfo>
   _loadPkmnInfo() async {
     await api.fetchSpecies(widget.pokemon.species);
     await api.fetchGenderRate(widget.pokemon.species);
+    await api.fetchEvolutionChain(widget.pokemon.species);
     setState(() {});
   }
 
