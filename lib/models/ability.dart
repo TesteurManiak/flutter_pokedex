@@ -19,17 +19,4 @@ class Ability {
       slot: json['slot'],
     );
   }
-
-  Map<String, dynamic> toJson() => _abilityToJson(this);
-
-  _abilityToJson(Ability ability) {
-    return {
-      "ability": {
-        "name": ability.name,
-        "url": ability.url,
-      },
-      "is_hidden": ability.isHidden,
-      "slot": ability.slot
-    };
-  }
 }

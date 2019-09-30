@@ -4,13 +4,13 @@ import 'package:http/http.dart' as http;
 import 'package:pokedex/data/pokemons.dart';
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/models/specie.dart';
+import 'package:pokedex/utils/fileData.dart';
 
 class PokeAPI {
   final String _apiUrl = "https://pokeapi.co/api/v2";
   final String _genderUrl = "https://pokeapi.co/api/v2/gender/1/";
 
-  /// load the next pokemon in the list
-  Future fetchNext([int maxRequest = 16]) async {
+  Future fetchTotalPkmn() async {
     if (pkmnCount == null) {
       final response = await http.get("$_apiUrl/pokemon/");
       if (response.statusCode == 200) {
@@ -20,6 +20,10 @@ class PokeAPI {
         throw Exception('Failed to load pokemon list');
       }
     }
+  }
+
+  /// load the next pokemon in the list
+  Future fetchNext([int maxRequest = 16]) async {
     int nbRequest = pokemons.length + maxRequest > pkmnCount
         ? pkmnCount - pokemons.length
         : maxRequest;
@@ -33,9 +37,19 @@ class PokeAPI {
   /// You can use either the pokemon id in the pokedex or its name
   /// to fetch the data.
   Future<Pokemon> fetchPokemon(String id) async {
+    // First check if PkmnFile already exists
+    var myFile = await localFile(id);
+    if ((await myFile.exists())) {
+      String content = await readPkmnFile(id);
+      var json = jsonDecode(content);
+      return Pokemon.fromJson(json);
+    }
+
     final response = await http.get("$_apiUrl/pokemon/$id/");
     if (response.statusCode == 200) {
-      return Pokemon.fromJson(jsonDecode(response.body));
+      var json = jsonDecode(response.body);
+      await writeJson(response.body, id);
+      return Pokemon.fromJson(json);
     } else {
       throw Exception('Failed to load pokemon $id');
     }

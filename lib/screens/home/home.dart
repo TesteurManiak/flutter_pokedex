@@ -6,6 +6,7 @@ import 'package:pokedex/screens/home/widgets/category_list.dart';
 import 'package:pokedex/screens/home/widgets/news_list.dart';
 import 'package:pokedex/screens/home/widgets/search_bar.dart';
 import 'package:pokedex/utils/fetch_data.dart';
+import 'package:pokedex/utils/fileData.dart';
 import 'package:pokedex/widgets/poke_container.dart';
 
 class Home extends StatefulWidget {
@@ -23,7 +24,11 @@ class _HomeState extends State<Home> {
 
   Future _loadPkmn() async {
     var api = PokeAPI();
-    await api.fetchNext();
+    await api.fetchTotalPkmn();
+    await loadAllSavedPkmn();
+    if (pokemons.isEmpty) {
+      await api.fetchNext();
+    }
     setState(() {});
   }
 
@@ -130,7 +135,7 @@ class _HomeState extends State<Home> {
         SystemUiOverlayStyle(statusBarColor: Colors.black));
 
     return Scaffold(
-      body: pokemons.length > 0
+      body: pkmnCount != null && pokemons.length > 0
           ? NestedScrollView(
               controller: _scrollController,
               headerSliverBuilder: (_, __) => [

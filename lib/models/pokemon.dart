@@ -161,7 +161,7 @@ class Pokemon {
     return Pokemon(
       color: color,
       image: json['sprites']['front_default'],
-      name: json['name'].toString().split("-").first,
+      name: json['name'],
       types: types,
       id: json['id'],
       abilities: abilities,
@@ -178,49 +178,5 @@ class Pokemon {
       stats: stats,
       weight: json['weight'],
     );
-  }
-
-  Map<String, dynamic> toJson() => _pkmnToJson(this);
-
-  _pkmnToJson(Pokemon pokemon) {
-    var abilities = [];
-    this.abilities.forEach((ability) {
-      abilities.add(ability.toJson());
-    });
-
-    var forms = [];
-    this.forms.forEach((form) {
-      forms.add(form.toJson());
-    });
-
-    var gameIndices = [];
-    this.gameIndices.forEach((indice) {
-      gameIndices.add(indice.toJson());
-    });
-    
-    var heldItems = [];
-    var moves = [];
-    var stats = [];
-    var types = [];
-
-    return {
-      "abilities": abilities,
-      "base_experience": this.baseExperience,
-      "forms": forms,
-      "game_indices": gameIndices,
-      "height": this.height,
-      "held_items": heldItems,
-      "id": this.id,
-      "is_default": this.isDefault,
-      "location_area_encounters": this.locationAreaEncounters,
-      "moves": moves,
-      "name": this.name,
-      "order": this.order,
-      "species": {},
-      "sprites": {},
-      "stats": stats,
-      "types": types,
-      "weight": this.weight
-    };
   }
 }
