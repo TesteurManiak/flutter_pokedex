@@ -5,3 +5,5 @@ List<Pokemon> pokemons = [];
 List<Pokemon> searchResult = [];
 
 String searchText = "";
+
+int pkmnCount;

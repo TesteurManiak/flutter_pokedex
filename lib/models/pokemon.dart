@@ -179,4 +179,36 @@ class Pokemon {
       weight: json['weight'],
     );
   }
+
+  Map<String, dynamic> toJson() => _pkmnToJson(this);
+
+  _pkmnToJson(Pokemon pokemon) {
+    var abilities = [];
+    var forms = [];
+    var gameIndices = [];
+    var heldItems = [];
+    var moves = [];
+    var stats = [];
+    var types = [];
+
+    return {
+      "abilities": abilities,
+      "base_experience": this.baseExperience,
+      "forms": forms,
+      "game_indices": gameIndices,
+      "height": this.height,
+      "held_items": heldItems,
+      "id": this.id,
+      "is_default": this.isDefault,
+      "location_area_encounters": this.locationAreaEncounters,
+      "moves": moves,
+      "name": this.name,
+      "order": this.order,
+      "species": {},
+      "sprites": {},
+      "stats": stats,
+      "types": types,
+      "weight": this.weight
+    };
+  }
 }

@@ -11,18 +11,20 @@ class PokeAPI {
 
   /// load the next pokemon in the list
   Future fetchNext([int maxRequest = 16]) async {
-    final response = await http.get("$_apiUrl/pokemon/");
-    if (response.statusCode == 200) {
-      var json = jsonDecode(response.body);
-      int count = json['count'];
-      int nbRequest = pokemons.length + maxRequest > count
-          ? count - pokemons.length
-          : maxRequest;
-      for (int i = 0; i < nbRequest; i++) {
-        pokemons.add(await fetchPokemon((pokemons.length + 1).toString()));
+    if (pkmnCount == null) {
+      final response = await http.get("$_apiUrl/pokemon/");
+      if (response.statusCode == 200) {
+        var json = jsonDecode(response.body);
+        pkmnCount = json['count'];
+      } else {
+        throw Exception('Failed to load pokemon list');
       }
-    } else {
-      throw Exception('Failed to load pokemon list');
+    }
+    int nbRequest = pokemons.length + maxRequest > pkmnCount
+        ? pkmnCount - pokemons.length
+        : maxRequest;
+    for (int i = 0; i < nbRequest; i++) {
+      pokemons.add(await fetchPokemon((pokemons.length + 1).toString()));
     }
   }
 
@@ -30,7 +32,7 @@ class PokeAPI {
   /// You can use either the pokemon id in the pokedex or its name
   /// to fetch the data.
   Future<Pokemon> fetchPokemon(String id) async {
-    final response = await http.get("$_apiUrl/pokemon/$id");
+    final response = await http.get("$_apiUrl/pokemon/$id/");
     if (response.statusCode == 200) {
       return Pokemon.fromJson(jsonDecode(response.body));
     } else {

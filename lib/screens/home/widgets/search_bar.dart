@@ -27,6 +27,8 @@ class SearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _filter.text = searchText;
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 18),
       margin: margin,
@@ -44,7 +46,11 @@ class SearchBar extends StatelessWidget {
             child: TextFormField(
               controller: _filter,
               decoration: InputDecoration(
-                hintText: "Search Pokemon, Move, Ability etc",
+                hintText: "Search Pokemon, Move, Ability, etc.",
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.clear),
+                  onPressed: () => _filter.clear(),
+                ),
                 hintStyle: TextStyle(
                   fontSize: 14,
                   color: AppColors.grey,
