@@ -5,7 +5,6 @@ import 'package:pokedex/data/pokemons.dart';
 import 'package:pokedex/screens/home/widgets/category_list.dart';
 import 'package:pokedex/screens/home/widgets/news_list.dart';
 import 'package:pokedex/screens/home/widgets/search_bar.dart';
-import 'package:pokedex/utils/fetch_data.dart';
 import 'package:pokedex/utils/fileData.dart';
 import 'package:pokedex/widgets/poke_container.dart';
 
@@ -31,9 +30,14 @@ class _HomeState extends State<Home> {
     setState(() {});
   }
 
+  Future _loadArticles() async {
+    newsList = await newsApi.fetchXArticles(5);
+  }
+
   @override
   void initState() {
     _loadPkmn();
+    _loadArticles();
     _cardHeight = 0;
     _showTitle = false;
     _showToolbarColor = false;
@@ -85,7 +89,7 @@ class _HomeState extends State<Home> {
         ),
         SizedBox(height: 40),
         SearchBar(),
-        SizedBox(height: 42),
+        SizedBox(height: 40),
         CategoryList(),
       ],
     );
@@ -123,7 +127,7 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-        NewsList(),
+        NewsList(newsList),
       ],
     );
   }
