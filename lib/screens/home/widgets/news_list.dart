@@ -26,7 +26,6 @@ class NewsList extends StatelessWidget {
           child: PokeNews(
             title: articles[index].title,
             time: articles[index].publishedAt,
-            //thumbnail: Image.asset("assets/images/thumbnail.png"),
             thumbnail: articles[index].urlToImage == null
                 ? null
                 : CachedNetworkImage(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pokedex/configs/AppColors.dart';
 import 'package:pokedex/data/pokemons.dart';
+import 'package:pokedex/screens/all_articles/all_articles.dart';
 import 'package:pokedex/screens/home/widgets/category_list.dart';
 import 'package:pokedex/screens/home/widgets/news_list.dart';
 import 'package:pokedex/screens/home/widgets/search_bar.dart';
@@ -32,6 +33,7 @@ class _HomeState extends State<Home> {
 
   Future _loadArticles() async {
     newsList = await newsApi.fetchXArticles(5);
+    setState(() {});
   }
 
   @override
@@ -114,7 +116,10 @@ class _HomeState extends State<Home> {
                 ),
               ),
               FlatButton(
-                onPressed: () {},
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => AllArticles())),
                 child: Text(
                   "View All",
                   style: TextStyle(
