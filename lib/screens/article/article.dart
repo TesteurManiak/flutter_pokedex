@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex/models/article.dart';
 import 'package:pokedex/utils/launch_url.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ArticlePage extends StatelessWidget {
   final ArticleModel article;
@@ -44,8 +45,7 @@ class ArticlePage extends StatelessWidget {
                   ? article.description
                   : article.content),
               SizedBox(height: 10),
-              FlatButton(
-                onPressed: () => launchUrl(article.url),
+              InkWell(
                 child: Text(
                   "source",
                   style: TextStyle(
@@ -53,6 +53,7 @@ class ArticlePage extends StatelessWidget {
                     decoration: TextDecoration.underline,
                   ),
                 ),
+                onTap: () => launch(article.url),
               ),
             ],
           ),
