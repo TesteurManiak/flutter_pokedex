@@ -13,18 +13,18 @@ Soon!
 
 ## App preview
 
-<img src="flutter_01.png" alt="drawing" height="500"/>
-<img src="flutter_02.png" alt="drawing" height="500"/>
-<img src="flutter_03.png" alt="drawing" height="500"/>
-<img src="flutter_04.png" alt="drawing" height="500"/>
-<img src="flutter_05.png" alt="drawing" height="500"/>
-<img src="flutter_06.png" alt="drawing" height="500"/>
-<img src="flutter_07.png" alt="drawing" height="500"/>
-<img src="flutter_08.png" alt="drawing" height="500"/>
-<img src="flutter_09.png" alt="drawing" height="500"/>
-<img src="flutter_10.png" alt="drawing" height="500"/>
-<img src="flutter_11.png" alt="drawing" height="500"/>
-<img src="flutter_12.png" alt="drawing" height="500"/>
+<img src="flutter_01.png" alt="drawing" height="400"/>
+<img src="flutter_02.png" alt="drawing" height="400"/>
+<img src="flutter_03.png" alt="drawing" height="400"/>
+<img src="flutter_04.png" alt="drawing" height="400"/>
+<img src="flutter_05.png" alt="drawing" height="400"/>
+<img src="flutter_06.png" alt="drawing" height="400"/>
+<img src="flutter_07.png" alt="drawing" height="400"/>
+<img src="flutter_08.png" alt="drawing" height="400"/>
+<img src="flutter_09.png" alt="drawing" height="400"/>
+<img src="flutter_10.png" alt="drawing" height="400"/>
+<img src="flutter_11.png" alt="drawing" height="400"/>
+<img src="flutter_12.png" alt="drawing" height="400"/>
 
 ## Installation
 
