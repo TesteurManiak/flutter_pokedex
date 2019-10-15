@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/data/pokemons.dart';
+import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/screens/pokemon_info/widgets/info.dart';
 import 'package:pokedex/screens/pokemon_info/widgets/tab.dart';
 import 'package:pokedex/widgets/slide_up_panel.dart';
 import 'package:provider/provider.dart';
 
 class PokemonInfo extends StatefulWidget {
+  final Pokemon pokemon;
+
+  PokemonInfo(this.pokemon);
+
   @override
   _PokemonInfoState createState() => _PokemonInfoState();
 }
 
-class _PokemonInfoState extends State<PokemonInfo> with TickerProviderStateMixin {
+class _PokemonInfoState extends State<PokemonInfo>
+    with TickerProviderStateMixin {
   static const double _pokemonSlideOverflow = 20;
 
   GlobalKey _pokemonInfoKey = GlobalKey();
@@ -20,24 +27,40 @@ class _PokemonInfoState extends State<PokemonInfo> with TickerProviderStateMixin
   double _cardMinHeight = 0.0;
   double _cardMaxHeight = 0.0;
 
+  _loadPkmnInfo() async {
+    await api.fetchSpecies(widget.pokemon.species);
+    await api.fetchGenderRate(widget.pokemon.species);
+    await api.fetchEvolutionChain(widget.pokemon.species);
+    setState(() {});
+  }
+
   @override
   void initState() {
-    _cardController = AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
-    _cardHeightController = AnimationController(vsync: this, duration: Duration(milliseconds: 220));
+    _cardController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 300));
+    _cardHeightController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 220));
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final screenHeight = MediaQuery.of(context).size.height;
       final appBarHeight = 60 + 22 + IconTheme.of(context).size;
 
-      final RenderBox pokemonInfoBox = _pokemonInfoKey.currentContext.findRenderObject();
+      final RenderBox pokemonInfoBox =
+          _pokemonInfoKey.currentContext.findRenderObject();
 
-      _cardMinHeight = screenHeight - pokemonInfoBox.size.height + _pokemonSlideOverflow;
+      _cardMinHeight =
+          screenHeight - pokemonInfoBox.size.height + _pokemonSlideOverflow;
       _cardMaxHeight = screenHeight - appBarHeight;
 
       _cardHeightController.forward();
     });
 
     super.initState();
+
+    if (widget.pokemon.species.genus == null ||
+        widget.pokemon.species.femaleRate == null) {
+      _loadPkmnInfo();
+    }
   }
 
   @override
@@ -53,12 +76,12 @@ class _PokemonInfoState extends State<PokemonInfo> with TickerProviderStateMixin
     return ListenableProvider(
       builder: (context) => _cardController,
       child: Scaffold(
-        backgroundColor: Color(0xFF48D0B0),
+        backgroundColor: widget.pokemon.color,
         body: Stack(
           children: <Widget>[
             AnimatedBuilder(
               animation: _cardHeightController,
-              child: PokemonTabInfo(),
+              child: PokemonTabInfo(widget.pokemon),
               builder: (context, child) {
                 return SlidingUpPanel(
                   controller: _cardController,
@@ -71,7 +94,7 @@ class _PokemonInfoState extends State<PokemonInfo> with TickerProviderStateMixin
             IntrinsicHeight(
               child: Container(
                 key: _pokemonInfoKey,
-                child: PokemonOverallInfo(),
+                child: PokemonOverallInfo(widget.pokemon),
               ),
             )
           ],

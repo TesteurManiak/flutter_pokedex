@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex/configs/AppColors.dart';
 import 'package:pokedex/data/pokemons.dart';
@@ -26,8 +27,8 @@ class PokemonBall extends StatelessWidget {
               height: pokeballSize,
               color: AppColors.lightGrey,
             ),
-            Image.asset(
-              pokemon.image,
+            CachedNetworkImage(
+              imageUrl: pokemon.image,
               width: pokemonSize,
               height: pokemonSize,
             ),
@@ -41,7 +42,11 @@ class PokemonBall extends StatelessWidget {
 }
 
 class PokemonEvolution extends StatelessWidget {
-  Widget _buildRow({current: Pokemon, next: Pokemon, level: int}) {
+  final Pokemon current;
+
+  PokemonEvolution(this.current);
+
+  Widget _buildRow({next: Pokemon, level: int}) {
     return Row(
       children: <Widget>[
         Expanded(child: PokemonBall(current)),
@@ -82,19 +87,22 @@ class PokemonEvolution extends StatelessWidget {
         children: <Widget>[
           Text(
             "Evolution Chain",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, height: 0.8),
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 16, height: 0.8),
           ),
           SizedBox(height: 28),
-          _buildRow(current: pokemons[0], next: pokemons[1], level: 16),
+          _buildRow(next: pokemons[1], level: 16),
           _buildDivider(),
-          _buildRow(current: pokemons[1], next: pokemons[2], level: 34),
+          _buildRow(next: pokemons[2], level: 34),
         ],
       ),
       builder: (context, widget) {
         final scrollable = cardController.value.floor() == 1;
 
         return SingleChildScrollView(
-          physics: scrollable ? BouncingScrollPhysics() : NeverScrollableScrollPhysics(),
+          physics: scrollable
+              ? BouncingScrollPhysics()
+              : NeverScrollableScrollPhysics(),
           padding: EdgeInsets.symmetric(vertical: 31, horizontal: 28),
           child: widget,
         );

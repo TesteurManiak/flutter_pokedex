@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex/configs/AppColors.dart';
 
@@ -9,7 +10,7 @@ class PokeNews extends StatelessWidget {
     @required this.thumbnail,
   }) : super(key: key);
 
-  final Image thumbnail;
+  final CachedNetworkImage thumbnail;
   final String time;
   final String title;
 
@@ -48,7 +49,9 @@ class PokeNews extends StatelessWidget {
             flex: 1,
             child: AspectRatio(
               aspectRatio: 1.6,
-              child: thumbnail,
+              child: thumbnail == null
+                  ? Image.asset('assets/images/pokeball.png')
+                  : thumbnail,
             ),
           ),
         ],

@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex/configs/AppColors.dart';
+import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/screens/pokemon_info/widgets/tab_about.dart';
 import 'package:pokedex/screens/pokemon_info/widgets/tab_base_stats.dart';
 import 'package:pokedex/screens/pokemon_info/widgets/tab_evolution.dart';
+import 'package:pokedex/screens/pokemon_info/widgets/tab_moves.dart';
 import 'package:provider/provider.dart';
 
 class TabData {
@@ -14,12 +16,11 @@ class TabData {
 }
 
 class PokemonTabInfo extends StatelessWidget {
-  final List<TabData> _tabs = [
-    TabData("About", PokemonAbout()),
-    TabData("Base Stats", PokemonBaseStats()),
-    TabData("Evolution", PokemonEvolution()),
-    TabData("Moves", Container(color: Colors.orange)),
-  ];
+  final Pokemon pokemon;
+
+  PokemonTabInfo(this.pokemon);
+
+  List<TabData> _tabs;
 
   Widget _buildTabBar() {
     return TabBar(
@@ -46,6 +47,13 @@ class PokemonTabInfo extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final scrollController = Provider.of<AnimationController>(context);
 
+    _tabs = [
+      TabData("About", PokemonAbout(pokemon)),
+      TabData("Base Stats", PokemonBaseStats(pokemon: pokemon)),
+      TabData("Evolution", PokemonEvolution(pokemon)),
+      TabData("Moves", PokemonMoves(pokemon)),
+    ];
+
     return DefaultTabController(
       length: 4,
       initialIndex: 0,
@@ -64,7 +72,8 @@ class PokemonTabInfo extends StatelessWidget {
           children: <Widget>[
             AnimatedBuilder(
               animation: scrollController,
-              builder: (context, _) => SizedBox(height: (1 - scrollController.value) * 16 + 6),
+              builder: (context, _) =>
+                  SizedBox(height: (1 - scrollController.value) * 16 + 6),
             ),
             _buildTabBar(),
             _buildTabContent(),

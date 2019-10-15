@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pokedex/configs/AppColors.dart';
+import 'package:pokedex/data/pokemons.dart';
+import 'package:pokedex/screens/all_articles/all_articles.dart';
 import 'package:pokedex/screens/home/widgets/category_list.dart';
 import 'package:pokedex/screens/home/widgets/news_list.dart';
 import 'package:pokedex/screens/home/widgets/search_bar.dart';
+import 'package:pokedex/utils/fileData.dart';
 import 'package:pokedex/widgets/poke_container.dart';
 
 class Home extends StatefulWidget {
@@ -18,8 +22,24 @@ class _HomeState extends State<Home> {
   bool _showTitle;
   bool _showToolbarColor;
 
+  Future _loadPkmn() async {
+    await api.fetchTotalPkmn();
+    await loadAllSavedPkmn();
+    if (pokemons.isEmpty) {
+      await api.fetchNext();
+    }
+    setState(() {});
+  }
+
+  Future _loadArticles() async {
+    newsList = await newsApi.fetchXArticles(5);
+    setState(() {});
+  }
+
   @override
   void initState() {
+    _loadPkmn();
+    _loadArticles();
     _cardHeight = 0;
     _showTitle = false;
     _showToolbarColor = false;
@@ -71,7 +91,7 @@ class _HomeState extends State<Home> {
         ),
         SizedBox(height: 40),
         SearchBar(),
-        SizedBox(height: 42),
+        SizedBox(height: 40),
         CategoryList(),
       ],
     );
@@ -82,7 +102,8 @@ class _HomeState extends State<Home> {
       physics: BouncingScrollPhysics(),
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(left: 28, right: 28, top: 0, bottom: 22),
+          padding:
+              const EdgeInsets.only(left: 28, right: 28, top: 0, bottom: 22),
           child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -94,18 +115,24 @@ class _HomeState extends State<Home> {
                   fontWeight: FontWeight.w900,
                 ),
               ),
-              Text(
-                "View All",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.indigo,
+              FlatButton(
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => AllArticles())),
+                child: Text(
+                  "View All",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.indigo,
+                  ),
                 ),
               ),
             ],
           ),
         ),
-        NewsList(),
+        NewsList(newsList),
       ],
     );
   }
@@ -115,36 +142,48 @@ class _HomeState extends State<Home> {
     final screenHeight = MediaQuery.of(context).size.height;
     _cardHeight = screenHeight * Home.cardHeightFraction;
 
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: Colors.black));
+
     return Scaffold(
-      body: NestedScrollView(
-        controller: _scrollController,
-        headerSliverBuilder: (_, __) => [
-          SliverAppBar(
-            expandedHeight: _cardHeight,
-            floating: true,
-            pinned: true,
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(30),
-              ),
-            ),
-            backgroundColor: Colors.red,
-            flexibleSpace: FlexibleSpaceBar(
-              collapseMode: CollapseMode.pin,
-              centerTitle: true,
-              title: _showTitle
-                  ? Text(
-                      "Pokedex",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )
-                  : null,
-              background: _buildCard(),
-            ),
-          ),
-        ],
-        body: _buildNews(),
-      ),
+      body: pkmnCount != null && pokemons.length > 0
+          ? NestedScrollView(
+              controller: _scrollController,
+              headerSliverBuilder: (_, __) => [
+                SliverAppBar(
+                  expandedHeight: 500,
+                  floating: true,
+                  pinned: true,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      bottom: Radius.circular(30),
+                    ),
+                  ),
+                  backgroundColor: Colors.red,
+                  flexibleSpace: FlexibleSpaceBar(
+                    collapseMode: CollapseMode.pin,
+                    centerTitle: true,
+                    title: _showTitle
+                        ? Text(
+                            "Pokedex",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )
+                        : null,
+                    background: _buildCard(),
+                  ),
+                ),
+              ],
+              body: _buildNews(),
+            )
+          : _buildLoadingScreen(),
+    );
+  }
+
+  Widget _buildLoadingScreen() {
+    return Container(
+      alignment: Alignment.center,
+      child: CircularProgressIndicator(),
     );
   }
 }
