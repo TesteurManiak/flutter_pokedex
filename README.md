@@ -5,24 +5,26 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-red.svg)](LICENSE)
 [![License](https://img.shields.io/badge/License-MIT-red.svg)](LICENSE)
 
-
 Pokedex app built with Flutter
 
 ## Download
 
-Go to the [releases page](https://github.com/scitbiz/flutter_pokedex/releases) to download the latest available apk.
+Soon!
 
 ## App preview
 
-![Home](screenshots/home.png "Home")
-![Pokedex](screenshots/pokedex.png "Pokedex")
-![Pokedex FAB](screenshots/pokedex-fab.png "Pokedex FAB")
-![Pokedex Search](screenshots/pokedex-fab-search.png "Pokedex Search")
-![Pokedex Generation](screenshots/pokedex-fab-generation.png "Pokedex Generation")
-![Pokemon Info - About](screenshots/pokemon-info-about.png "Pokemon Info - About")
-![Pokemon Info - Base Stats](screenshots/pokemon-info-base-stats.png "Pokemon Info - Base Stats")
-![Pokemon Info - Evolution](screenshots/pokemon-info-evolution.png "Pokemon Info - Evolution")
-![Pokemon Info - About (Expanded)](screenshots/pokemon-info-about-expanded.png "Pokemon Info - About (Expanded)")
+<img src="flutter_01.png" alt="drawing" height="500"/>
+<img src="flutter_02.png" alt="drawing" height="500"/>
+<img src="flutter_03.png" alt="drawing" height="500"/>
+<img src="flutter_04.png" alt="drawing" height="500"/>
+<img src="flutter_05.png" alt="drawing" height="500"/>
+<img src="flutter_06.png" alt="drawing" height="500"/>
+<img src="flutter_07.png" alt="drawing" height="500"/>
+<img src="flutter_08.png" alt="drawing" height="500"/>
+<img src="flutter_09.png" alt="drawing" height="500"/>
+<img src="flutter_10.png" alt="drawing" height="500"/>
+<img src="flutter_11.png" alt="drawing" height="500"/>
+<img src="flutter_12.png" alt="drawing" height="500"/>
 
 ## Installation
 
@@ -36,23 +38,33 @@ Go to the [releases page](https://github.com/scitbiz/flutter_pokedex/releases) t
 
 - [x] Home
 - [x] Home - Apply Sliver effect in home screen
+- [x] Home - Real news pages
 - [x] Pokedex
 - [x] Pokedex - FAB
 - [x] Pokedex - Add FAB animation
-- [ ] Pokedex - Add grid loading animation
+- [x] Pokedex - Add grid loading animation
+- [ ] Pokedex - Working favourite pokemon
+- [ ] Pokedex - Working type filter
+- [ ] Pokedex - Working generation filter
+- [x] Pokedex - Working searchbar
 - [x] Pokemon Info
 - [x] Pokemon Info - About
 - [x] Pokemon Info - Base Stats
-- [x] Pokemon Info - Evolution
+- [ ] Pokemon Info - Evolution
 - [ ] Pokemon Info - Moves (no design)
 - [x] Pokemon Info - Make tab area expandable
 - [x] Pokemon Info - Add animations
-- [ ] Pokemon Info - Add more Pokemons
+- [x] Pokemon Info - Add more Pokemons
+- [ ] PokeNews - Better design
+- [ ] PokeNews - Pull to refresh
 
 ## Thanks
 
 - [Saepul Nahwan](https://dribbble.com/saepulnahwan23) for his [Pokedex App design](https://dribbble.com/shots/6545819-Pokedex-App)
 - [Flutter](https://flutter.dev) for the great cross platform framework
+- [PokeAPI](https://pokeapi.co/) for the API containing all Pokemon informations
+- [NewsAPI](https://newsapi.org/) for the API to display regular news about Pokemon
+- [Scitbiz](https://github.com/scitbiz) for the work on the animation and the implementation of the design from his [Flutter Pokedex](https://github.com/scitbiz/flutter_pokedex)
 
 ## License
 
