@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/models/pokemon.dart';
+import 'package:pokedex/screens/move/move_page.dart';
+import 'package:pokedex/widgets/pokemon_card.dart';
 import 'package:provider/provider.dart';
 
 class PokemonMoves extends StatelessWidget {
@@ -7,11 +9,14 @@ class PokemonMoves extends StatelessWidget {
 
   PokemonMoves(this.pokemon);
 
-  List<Widget> _buildMoveList() {
+  List<Widget> _buildMoveList(BuildContext context) {
     List<Widget> moveList = [];
     pokemon.moves.forEach((move) {
       moveList.add(ListTile(
-        title: Text(move.name),
+        title: Text(capitalizeFirstChar(move.name)),
+        trailing: Icon(Icons.arrow_forward_ios),
+        onTap: () => Navigator.push(
+            context, MaterialPageRoute(builder: (context) => MovePage(move))),
       ));
     });
     return moveList;
@@ -34,7 +39,7 @@ class PokemonMoves extends StatelessWidget {
     return AnimatedBuilder(
       animation: cardController,
       child: Column(
-        children: _buildMoveList(),
+        children: _buildMoveList(context),
       ),
       builder: (BuildContext context, Widget child) {
         final scrollable = cardController.value.floor() == 1;
