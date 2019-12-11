@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex/models/article.dart';
-import 'package:pokedex/utils/launch_url.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ArticlePage extends StatelessWidget {

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/data/pokemons.dart';
-import 'package:pokedex/utils/fetch_data.dart';
 
 class EggGroup {
   String name;

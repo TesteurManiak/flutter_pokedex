@@ -5,7 +5,6 @@ import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/screens/pokedex/widgets/generation_modal.dart';
 import 'package:pokedex/screens/pokedex/widgets/search_modal.dart';
 import 'package:pokedex/screens/pokemon_info/pokemon_info.dart';
-import 'package:pokedex/utils/fetch_data.dart';
 import 'package:pokedex/widgets/fab.dart';
 import 'package:pokedex/widgets/poke_container.dart';
 import 'package:pokedex/widgets/pokemon_card.dart';

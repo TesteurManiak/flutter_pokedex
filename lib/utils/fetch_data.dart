@@ -102,7 +102,7 @@ class PokeAPI {
   Future fetchEvolutionChain(Specie species) async {
     final response = await http.get(species.evolutionChain);
     if (response.statusCode == 200) {
-      var json = jsonDecode(response.body);
+      //var json = jsonDecode(response.body);
     } else {
       throw Exception(
           'Failed to load evolution chain of species ${species.name}');
