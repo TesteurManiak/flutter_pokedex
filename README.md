@@ -13,6 +13,7 @@ Soon!
 
 ## App preview
 
+<div>
 <img src="flutter_01.png" alt="drawing" height="400"/>
 <img src="flutter_02.png" alt="drawing" height="400"/>
 <img src="flutter_03.png" alt="drawing" height="400"/>
@@ -21,6 +22,7 @@ Soon!
 <img src="flutter_06.png" alt="drawing" height="400"/>
 <img src="flutter_10.png" alt="drawing" height="400"/>
 <img src="flutter_12.png" alt="drawing" height="400"/>
+</div>
 
 ## Installation
 
